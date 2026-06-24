@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+env/
+venv/
+.venv/
+
+# Local SQLite database (do NOT commit — Render creates a fresh one via db_init.py)
+database.db
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/

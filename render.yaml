@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: bager-ecommerce
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: bash start.sh
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true   # Render auto-generates a secure random secret
+      - key: PYTHON_VERSION
+        value: 3.9.0
+    disk:
+      name: bager-db
+      mountPath: /data        # SQLite database stored here (persists across deploys)
+      sizeGB: 1

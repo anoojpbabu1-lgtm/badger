@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BAGER - Premium Light Red themed Flipkart-style e-commerce platform. Shop gadgets, devices, fashion, and accessories.">
+    <title>BAGER | Online Shopping Site for Electronics, Apparel & More</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="app-header">
+        <div class="header-container">
+            <!-- Brand Logo -->
+            <a href="#/" class="header-logo-link" id="header-logo">
+                <img src="/static/images/bager_logo.png" alt="BAGER Logo" class="brand-logo-img">
+            </a>
+
+            <!-- Search Bar -->
+            <div class="header-search">
+                <form id="search-form" class="search-bar-form">
+                    <input type="text" id="search-input" placeholder="Search for products, brands and more" aria-label="Search">
+                    <button type="submit" class="search-btn" id="search-submit-btn" aria-label="Search Submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <!-- User Profile / Login -->
+                <div class="user-action-container" id="user-nav-area">
+                    <button class="login-nav-btn" id="nav-login-btn">Login</button>
+                </div>
+
+                <!-- Admin Dashboard (Hidden by default) -->
+                <a href="#/admin" class="nav-action-link hidden" id="nav-admin-link">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Admin</span>
+                </a>
+
+                <!-- User Orders (Hidden by default) -->
+                <a href="#/orders" class="nav-action-link hidden" id="nav-orders-link">
+                    <i class="fas fa-box-open"></i>
+                    <span>Orders</span>
+                </a>
+
+                <!-- Cart Button -->
+                <a href="#/cart" class="nav-action-link cart-nav-btn" id="nav-cart-btn">
+                    <div class="cart-icon-wrapper">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cart-item-count">0</span>
+                    </div>
+                    <span>Cart</span>
+                </a>
+
+                <!-- Logout (Hidden by default) -->
+                <button class="logout-nav-btn hidden" id="nav-logout-btn" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub-header Category Navigation -->
+    <nav class="category-nav">
+        <div class="category-container">
+            <button class="category-item active" data-category="">
+                <i class="fas fa-th-large"></i>
+                <span>All Categories</span>
+            </button>
+            <button class="category-item" data-category="Electronics">
+                <i class="fas fa-laptop"></i>
+                <span>Electronics</span>
+            </button>
+            <button class="category-item" data-category="Smart Devices">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Smart Devices</span>
+            </button>
+            <button class="category-item" data-category="Footwear">
+                <i class="fas fa-shoe-prints"></i>
+                <span>Footwear</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Main Container -->
+    <main class="app-main-content">
+        <!-- SPA View Container -->
+        <div id="view-container">
+            
+            <!-- 1. HOME VIEW -->
+            <section id="home-view" class="spa-view active">
+                <!-- Promo Hero Banner -->
+                <div class="hero-carousel">
+                    <div class="carousel-slide">
+                        <img src="/static/images/banner_sale.png" alt="Big Red Sale Promo Banner" class="carousel-img">
+                        <div class="carousel-caption">
+                            <h2>BIG RED SALE</h2>
+                            <p>Up to 50% Off on Top Electronics and Smart Devices</p>
+                            <a href="#/" class="carousel-cta" id="banner-shop-now-btn">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="section-container">
+                    <h1 class="section-title">Trending Deals</h1>
+                    <div class="products-grid" id="home-products-grid">
+                        <!-- Products dynamically inserted here -->
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i> Loading products...
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. PRODUCT DETAILS VIEW -->
+            <section id="product-view" class="spa-view">
+                <div class="product-details-container" id="product-details-content">
+                    <!-- Loaded dynamically via js -->
+                </div>
+            </section>
+
+            <!-- 3. CART VIEW -->
+            <section id="cart-view" class="spa-view">
+                <div class="cart-layout-container">
+                    <!-- Left Column: Items List -->
+                    <div class="cart-items-wrapper">
+                        <div class="cart-card-header">
+                            <h2>My Cart (<span id="cart-header-count">0</span>)</h2>
+                        </div>
+                        <div class="cart-items-list" id="cart-items-list">
+                            <!-- Items inserted dynamically -->
+                        </div>
+                        <div class="cart-actions-footer" id="cart-checkout-actions">
+                            <a href="#/" class="btn btn-secondary">Continue Shopping</a>
+                            <button class="btn btn-primary" id="cart-checkout-btn">Place Order</button>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Price Details -->
+                    <div class="cart-price-summary-card">
+                        <h3 class="price-summary-title">Price Details</h3>
+                        <hr class="divider">
+                        <div class="price-row">
+                            <span>Price (<span id="summary-item-count">0</span> items)</span>
+                            <span id="summary-subtotal">₹0.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Discount</span>
+                            <span class="text-success" id="summary-discount">-₹0.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Delivery Charges</span>
+                            <span class="text-success" id="summary-delivery">FREE</span>
+                        </div>
+                        <hr class="divider-dashed">
+                        <div class="price-row total-row">
+                            <strong>Total Amount</strong>
+                            <strong id="summary-total">₹0.00</strong>
+                        </div>
+                        <hr class="divider">
+                        <p class="savings-text"><i class="fas fa-shield-alt text-success"></i> Safe and Secure Payments. 100% Authentic products.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. CHECKOUT VIEW -->
+            <section id="checkout-view" class="spa-view">
+                <div class="checkout-container">
+                    <div class="checkout-left-col">
+                        <!-- Shipping Details Card -->
+                        <div class="checkout-step-card">
+                            <div class="step-header">
+                                <span class="step-number">1</span>
+                                <h2>Delivery Address</h2>
+                            </div>
+                            <div class="step-body">
+                                <form id="checkout-form">
+                                    <div class="form-group">
+                                        <label for="checkout-address">Full Address *</label>
+                                        <textarea id="checkout-address" rows="3" placeholder="Enter your complete shipping address" required></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Payment Details Card -->
+                        <div class="checkout-step-card">
+                            <div class="step-header">
+                                <span class="step-number">2</span>
+                                <h2>Payment Options</h2>
+                            </div>
+                            <div class="step-body">
+                                <div class="payment-options-list">
+                                    <label class="payment-radio-option">
+                                        <input type="radio" name="payment-method" value="COD" checked>
+                                        <span class="radio-custom"></span>
+                                        <span class="payment-option-details">
+                                            <strong>Cash on Delivery (COD)</strong>
+                                            <span>Pay cash when your order is delivered.</span>
+                                        </span>
+                                    </label>
+                                    <label class="payment-radio-option">
+                                        <input type="radio" name="payment-method" value="UPI">
+                                        <span class="radio-custom"></span>
+                                        <span class="payment-option-details">
+                                            <strong>UPI / QR Code</strong>
+                                            <span>Pay instantly using any UPI app (GPay, PhonePe, Paytm).</span>
+                                        </span>
+                                    </label>
+                                    <label class="payment-radio-option">
+                                        <input type="radio" name="payment-method" value="Card">
+                                        <span class="radio-custom"></span>
+                                        <span class="payment-option-details">
+                                            <strong>Credit / Debit Card</strong>
+                                            <span>Visa, Mastercard, RuPay, Maestro.</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="checkout-actions-wrapper">
+                            <button class="btn btn-primary btn-large" id="confirm-order-btn">Confirm Order</button>
+                        </div>
+                    </div>
+
+                    <!-- Right Price Summary -->
+                    <div class="checkout-right-col" id="checkout-summary-target">
+                        <!-- Loaded via JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. ORDERS VIEW -->
+            <section id="orders-view" class="spa-view">
+                <div class="orders-container-wrapper">
+                    <h1 class="orders-page-title">My Orders</h1>
+                    <div class="orders-list-wrapper" id="user-orders-list">
+                        <!-- Orders rendered dynamically -->
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i> Loading your orders...
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. ADMIN VIEW -->
+            <section id="admin-view" class="spa-view">
+                <div class="admin-layout-wrapper">
+                    <!-- Admin Sidebar -->
+                    <aside class="admin-sidebar">
+                        <div class="admin-profile-heading">
+                            <i class="fas fa-user-shield"></i>
+                            <div>
+                                <h3>Admin Panel</h3>
+                                <span>Manage Store</span>
+                            </div>
+                        </div>
+                        <nav class="admin-menu">
+                            <button class="admin-menu-item active" data-panel="admin-stats-panel">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Overview</span>
+                            </button>
+                            <button class="admin-menu-item" data-panel="admin-products-panel" id="admin-products-menu-btn">
+                                <i class="fas fa-boxes"></i>
+                                <span>Manage Products</span>
+                            </button>
+                            <button class="admin-menu-item" data-panel="admin-orders-panel" id="admin-orders-menu-btn">
+                                <i class="fas fa-receipt"></i>
+                                <span>Manage Orders</span>
+                            </button>
+                        </nav>
+                    </aside>
+
+                    <!-- Admin Content Area -->
+                    <div class="admin-content-area">
+                        <!-- A. Stats Panel -->
+                        <div id="admin-stats-panel" class="admin-tab-panel active">
+                            <h2 class="admin-panel-title">Overview Dashboard</h2>
+                            <div class="admin-stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-icon bg-red-light">
+                                        <i class="fas fa-rupee-sign text-primary"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3 id="stat-total-sales">₹0.00</h3>
+                                        <span>Total Sales</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon bg-blue-light">
+                                        <i class="fas fa-shopping-bag text-blue"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3 id="stat-total-orders">0</h3>
+                                        <span>Total Orders</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon bg-green-light">
+                                        <i class="fas fa-box text-success"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3 id="stat-total-products">0</h3>
+                                        <span>Total Products</span>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon bg-orange-light">
+                                        <i class="fas fa-exclamation-triangle text-warning"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <h3 id="stat-low-stock">0</h3>
+                                        <span>Low Stock Alerts</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- B. Products Panel -->
+                        <div id="admin-products-panel" class="admin-tab-panel">
+                            <div class="admin-panel-header">
+                                <h2>Manage Products</h2>
+                                <button class="btn btn-primary" id="admin-add-product-btn">
+                                    <i class="fas fa-plus"></i> Add Product
+                                </button>
+                            </div>
+                            <div class="admin-table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Stock</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-products-table-body">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- C. Orders Panel -->
+                        <div id="admin-orders-panel" class="admin-tab-panel">
+                            <h2 class="admin-panel-title">Manage Customer Orders</h2>
+                            <div class="admin-table-container">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer Details</th>
+                                            <th>Date Placed</th>
+                                            <th>Items</th>
+                                            <th>Total Price</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-orders-table-body">
+                                        <!-- Loaded dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Auth Modal (Login / Signup) -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close Modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-tabs">
+                <button class="modal-tabactive active" id="tab-login-btn">Login</button>
+                <button class="modal-tabactive" id="tab-signup-btn">Sign Up</button>
+            </div>
+            
+            <div class="modal-body-container">
+                <!-- Login Form -->
+                <div class="modal-form-container active" id="login-form-wrapper">
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" placeholder="Enter your email" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" placeholder="Enter password" required autocomplete="current-password">
+                        </div>
+                        <div class="form-error" id="login-error-msg"></div>
+                        <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                    </form>
+                </div>
+
+                <!-- Signup Form -->
+                <div class="modal-form-container" id="signup-form-wrapper">
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" placeholder="Enter full name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" placeholder="Enter email" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" placeholder="Min 6 characters" required autocomplete="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm-password">Confirm Password</label>
+                            <input type="password" id="signup-confirm-password" placeholder="Re-enter password" required autocomplete="new-password">
+                        </div>
+                        <div class="form-error" id="signup-error-msg"></div>
+                        <button type="submit" class="btn btn-primary btn-block">Register & Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Form Modal (Admin Add/Edit) -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-card modal-card-large">
+            <button class="modal-close-btn" id="prod-modal-close-btn" aria-label="Close Product Modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 id="product-modal-title" class="product-modal-title">Add New Product</h2>
+            <form id="product-form" class="product-input-form">
+                <input type="hidden" id="prod-form-id">
+                
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="prod-form-name">Product Name *</label>
+                        <input type="text" id="prod-form-name" required placeholder="e.g. BAGER SuperBuds">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="prod-form-category">Category *</label>
+                        <select id="prod-form-category" required>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Smart Devices">Smart Devices</option>
+                            <option value="Footwear">Footwear</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-6">
+                        <label for="prod-form-price">Price (₹) *</label>
+                        <input type="number" id="prod-form-price" min="0" step="0.01" required placeholder="999.00">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="prod-form-stock">Stock Quantity *</label>
+                        <input type="number" id="prod-form-stock" min="0" required placeholder="50">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="prod-form-image">Product Image URL</label>
+                    <input type="text" id="prod-form-image" placeholder="Leave empty for default image">
+                </div>
+
+                <div class="form-group">
+                    <label for="prod-form-desc">Description</label>
+                    <textarea id="prod-form-desc" rows="3" placeholder="Provide a rich product description..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Specifications (Key: Value pairs)</label>
+                    <div id="specs-input-list" class="specs-input-list">
+                        <!-- Dynamic rows of Specs -->
+                    </div>
+                    <button type="button" class="btn btn-link" id="add-spec-row-btn">
+                        <i class="fas fa-plus"></i> Add Spec Row
+                    </button>
+                </div>
+
+                <div class="form-error" id="prod-form-error-msg"></div>
+                
+                <div class="product-form-actions">
+                    <button type="button" class="btn btn-secondary" id="prod-form-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="prod-form-submit-btn">Save Product</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- App Scripts -->
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/admin.js"></script>
+</body>
+</html>

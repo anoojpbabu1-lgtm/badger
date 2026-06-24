@@ -2,55 +2,13 @@ import sqlite3
 import os
 import json
 import functools
-import db_init
 from flask import Flask, request, jsonify, session, render_template
+from db_init import init_db
+
+init_db()
+
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-# 👇 ADD THIS BLOCK HERE
-def init_db():
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-def init_db():
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    # users table
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        email TEXT UNIQUE,
-        password TEXT
-    )
-    """)
-
-    # products table
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        price REAL,
-        image TEXT
-    )
-    """)
-
-    # 👇 ADD HERE
-    cursor.execute("SELECT COUNT(*) FROM products")
-    count = cursor.fetchone()[0]
-
-    if count == 0:
-        cursor.execute("""
-        INSERT INTO products (name, price, image)
-        VALUES 
-        ('Laptop', 50000, 'https://via.placeholder.com/150'),
-        ('Phone', 20000, 'https://via.placeholder.com/150'),
-        ('Headphones', 2000, 'https://via.placeholder.com/150')
-        """)
-
-    conn.commit()
-    conn.close()
-
-init_db()  # 👈 THIS LINE IS IMPORTANT
 app.secret_key = os.environ.get('SECRET_KEY', 'bager_ecomm_secure_key_987654321')
 
 # On Render, use /data/ (persistent disk). Locally use the project directory.

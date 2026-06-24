@@ -5,12 +5,38 @@ import functools
 from flask import Flask, request, jsonify, session, render_template
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
+# 👇 ADD THIS BLOCK HERE
+def init_db():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT UNIQUE,
+        password TEXT
+    )
+    """)
+
+    # If you have products, also add this:
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS products (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        price REAL,
+        image TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+init_db()  # 👈 THIS LINE IS IMPORTANT
 app.secret_key = os.environ.get('SECRET_KEY', 'bager_ecomm_secure_key_987654321')
 
 # On Render, use /data/ (persistent disk). Locally use the project directory.
 _DATA_DIR = '/data' if os.path.isdir('/data') else os.path.dirname(__file__)
 DATABASE_PATH = os.path.join(_DATA_DIR, 'database.db')
-
 def get_db_connection():
     conn = sqlite3.connect(DATABASE_PATH)
     conn.row_factory = sqlite3.Row

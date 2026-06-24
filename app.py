@@ -2,6 +2,7 @@ import sqlite3
 import os
 import json
 import functools
+import db_init
 from flask import Flask, request, jsonify, session, render_template
 
 app = Flask(__name__, template_folder='templates', static_folder='static')

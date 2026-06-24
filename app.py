@@ -10,6 +10,11 @@ def init_db():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
 
+def init_db():
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # users table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -18,7 +23,7 @@ def init_db():
     )
     """)
 
-    # If you have products, also add this:
+    # products table
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,6 +32,19 @@ def init_db():
         image TEXT
     )
     """)
+
+    # 👇 ADD HERE
+    cursor.execute("SELECT COUNT(*) FROM products")
+    count = cursor.fetchone()[0]
+
+    if count == 0:
+        cursor.execute("""
+        INSERT INTO products (name, price, image)
+        VALUES 
+        ('Laptop', 50000, 'https://via.placeholder.com/150'),
+        ('Phone', 20000, 'https://via.placeholder.com/150'),
+        ('Headphones', 2000, 'https://via.placeholder.com/150')
+        """)
 
     conn.commit()
     conn.close()
